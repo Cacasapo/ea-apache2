@@ -25,3 +25,7 @@ Downgrading
 ```
 yum downgrade ea-apache24 ea-apache24-tools ea-apache24-mod_headers ea-apache24-mod_proxy ea-apache24-mod_suexec ea-apache24-mod_proxy_http ea-apache24-mod_unique_id ea-apache24-mod_mpm_worker ea-apache24-mod_ssl ea-apache24-mod_proxy_fcgi ea-apache24-mod_cgid ea-apache24-mod_deflate ea-apache24-mod_expires ea-apr
 ````
+
+More Information
+
+If you're interested in distributing your own packages that work with EasyApache 4, check here: http://jperkster.github.io/EasyApache4/
