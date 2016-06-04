@@ -27,5 +27,5 @@ yum downgrade ea-apache24 ea-apache24-tools ea-apache24-mod_headers ea-apache24-
 ````
 
 More Information
-
+-----------
 If you're interested in distributing your own packages that work with EasyApache 4, check here: http://jperkster.github.io/EasyApache4/
