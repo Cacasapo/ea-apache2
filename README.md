@@ -5,12 +5,12 @@ This fork of ea-apache2 includes the BlueHost Symlink Protection Patch for EasyA
 
 Installation
 -----------
-0. Go to the following link and click on your architecture
+0. Go to the following link and click on your architecture: http://download.opensuse.org/repositories/home:/Jperkster:/symlink_patch/
 0. Download the .repo file:
 ```
 wget -O /etc/yum.repos.d/EA4-Symlink-Protection.repo $Link_to_repo_file 
+yum update
 ```
-0. Yum update
 
 Downgrading
 -----------
