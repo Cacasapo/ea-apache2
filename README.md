@@ -20,7 +20,6 @@ yum update
 
 Downgrading
 -----------
-If you ever need to downgrade away from these packages, the following should work:
 0. Set 'enabled=0' in /etc/yum.repos.d/EA4-Symlink-Protection.repo.
 0. Run:
 ```
