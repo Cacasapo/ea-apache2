@@ -16,7 +16,7 @@ Summary: Apache HTTP Server
 Name: ea-apache24
 Version: 2.4.23
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 669
+%define release_prefix 680
 Release: %{release_prefix}%{?dist}.cpanel.http2
 Vendor: cPanel, Inc.
 URL: http://httpd.apache.org/
@@ -60,27 +60,26 @@ Patch56: httpd-2.4.4-mod_unique_id.patch
 Patch59: httpd-2.4.6-r1556473.patch
 Patch60: httpd-2.4.20-asf_httpoxy-response.patch
 # cPanel-specific patches
-Patch301: 2.2_cpanel_whmserverstatus.patch
+Patch301: 2.4.23_cpanel_apachectl.patch
 Patch302: 2.2.17_cpanel_suexec_script_share.patch
 Patch303: 2.2.17_cpanel_mailman_suexec.patch
 Patch304: 2.2_cpanel_fileprotect_suexec_httpusergroupallow.patch
 Patch305: httpd-2.4.12-apxs-modules-dir.patch
-
-#PICK ONE OR NONE. Search for 401/402 and enable it in the patch section.
-# Symlink Protection (Bluehost)
-#Patch401: symlink-protection.patch
-
-# Symlink Protection (Rack911)
-#Patch402: harden-symlinks-2.4.patch
+Patch306: httpd-2.4.23-symlink.patch
+#OFFICIAL SYMLINK PATCH BY WHM/CPANEL IS ENABLED BY DEFAULT.
+#IF YOU WANT TO USE THE RACK911 PATCH, COMMENT OUT PATCH 306
+#Symlink Protection (Rack911)
+#Patch401: harden-symlinks-2.4.patch
 
 License: ASL 2.0
 Group: System Environment/Daemons
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: autoconf, perl, pkgconfig, findutils, xmlto
 BuildRequires: zlib-devel, libselinux-devel, lua-devel
-BuildRequires: ea-apr-devel >= 1.5.0, ea-apr-util-devel >= 1.2.0
+BuildRequires: ea-apr-devel >= 1.5.2-4, ea-apr-util-devel >= 1.2.0
 BuildRequires: pcre-devel >= 5.0
-Requires: system-logos >= 7.92.1-1, ea-apr >= 1.5.0
+Requires: ea-apr%{?_isa} >= 1.5.2-4
+Requires: system-logos >= 7.92.1-1
 Requires: ea-apache24-mpm, ea-apache24-cgi
 Requires: ea-apache24-mod_ssl
 Requires: ea-documentroot
@@ -109,7 +108,7 @@ web server.
 Group: Development/Libraries
 Summary: Development interfaces for the Apache HTTP server
 Obsoletes: secureweb-devel, apache-devel, stronghold-apache-devel, httpd-devel
-Requires: ea-apr-devel >= 1.5.0, ea-apr-util-devel, pkgconfig
+Requires: ea-apr-devel >= 1.5.2-4, ea-apr-util-devel, pkgconfig
 Requires: ea-apache24 = %{version}-%{release}
 
 %description devel
@@ -1216,16 +1215,13 @@ mod_watchdog hooks.
 %patch59 -p1 -b .r1556473
 %patch60 -p1 -b .asf_httpoxy-response
 
-%patch301 -p1 -b .cpWHM
+%patch301 -p1 -b .cpapachectl
 %patch302 -p1 -b .cpsuexec1
 %patch303 -p1 -b .cpsuexec2
 %patch304 -p1 -b .cpsuexec3
 %patch305 -p1 -b .cpapxs
-
+%patch306 -p1 -b .symlink
 #%patch401 -p1 -b .harden
-
-#%patch402 -p1 -b .harden
-
 
 # Patch in the vendor string and the release string
 sed -i '/^#define PLATFORM/s/Unix/%{vstring}/' os/unix/os.h
@@ -1309,8 +1305,6 @@ export LYNX_PATH=/usr/bin/links
     --enable-http2=static \
 	--with-nghttp2 \
     --with-ssl=/opt/ssl \
-    
-
 	$*
 make %{?_smp_mflags}
 
@@ -1830,6 +1824,26 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/rpm/macros.apache2
 
 %changelog
+* Tue Dec 13 2016 Dan Muey <dan@cpanel.net> - 2.4.23-9
+- EA-5557: turn off icon directives by default since the icons are broken under symlink protect
+-          and are used by HTMLTable even when fancy indexinf is off
+
+* Tue Dec 06 2016 Dan Muey <dan@cpanel.net> - 2.4.23-8
+- EA-5557: turn off fancy indexing by default since the icons are broken under symlink protect
+
+* Mon Dec 05 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 2.4.23-7
+- Update apachectl with ulimit calls modifying the open file
+  descriptor limit so that Apache will start up (EA-5662)
+
+* Thu Dec 01 2016 Dan Muey <dan@cpanel.net> - 2.4.23-6
+- EA-5712: Patch apachectl to set PORT based on cpanel configuration
+
+* Mon Oct 24 2016 Edwin Buck <e.buck@cpanel.net> - 2.4.23-5
+- Add symlink protection root directive.
+
+* Mon Oct 24 2016 Edwin Buck <e.buck@cpanel.net> - 2.4.23-4
+- Add symlink protection patch and configuration control.
+
 * Wed Jul 20 2016 Edwin Buck <e.buck@cpanel.net> - 2.4.23-3
 - Fixed autoindex.conf suppression of /icons/ in subdomains.
 
@@ -1849,8 +1863,6 @@ rm -rf $RPM_BUILD_ROOT
 
 * Mon Jun 20 2016 Dan Muey <dan@cpanel.net> - 2.4.20-4
 - EA-4383: Update Release value to OBS-proof versioning
-* Fri Jun 3 2016 Jacob Perkins <jacob.perkin@gmail.com> - 2.4.20-4
-- Added Symlink Protection Patch
 
 * Fri May 27 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 2.4.20-3
 - Updated suexec minimum uid to match EA3
@@ -2282,7 +2294,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Oct 24 2011 Jan Kaluza <jkaluza@redhat.com> - 2.2.21-3
 - allow change state of BalancerMember in mod_proxy_balancer web interface
 
-* Thu Sep 22 2011 Ville SkyttÃ¤ <ville.skytta@iki.fi> - 2.2.21-2
+* Thu Sep 22 2011 Ville Skyttä <ville.skytta@iki.fi> - 2.2.21-2
 - Make mmn available as %%{_httpd_mmn}.
 - Add .svgz to AddEncoding x-gzip example in httpd.conf.
 
@@ -2314,7 +2326,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix path expansion in service files
 
 * Tue Apr 12 2011 Joe Orton <jorton@redhat.com> - 2.2.17-12
-- add systemd service files (#684175, thanks to JÃ³hann B. GuÃ°mundsson)
+- add systemd service files (#684175, thanks to Jóhann B. Guðmundsson)
 
 * Wed Mar 23 2011 Joe Orton <jorton@redhat.com> - 2.2.17-11
 - minor updates to httpd.conf
