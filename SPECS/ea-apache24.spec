@@ -68,9 +68,9 @@ Patch305: httpd-2.4.12-apxs-modules-dir.patch
 Patch306: httpd-2.4.23-symlink.patch
 
 #OFFICIAL SYMLINK PATCH BY WHM/CPANEL IS ENABLED BY DEFAULT.
-#IF YOU WANT TO USE THE RACK911 PATCH, COMMENT OUT PATCH 306
+#IF YOU WANT TO USE THE RACK911 PATCH, COMMENT OUT PATCH 306 IN BOTH LOCATIONS AND ENABLE 401
 # Symlink Protection (Rack911)
-#Patch402: harden-symlinks-2.4.patch
+#Patch401: harden-symlinks-2.4.patch
 
 License: ASL 2.0
 Group: System Environment/Daemons
@@ -1221,11 +1221,9 @@ mod_watchdog hooks.
 %patch303 -p1 -b .cpsuexec2
 %patch304 -p1 -b .cpsuexec3
 %patch305 -p1 -b .cpapxs
-#%patch306 -p1 -b .symlink
+%patch306 -p1 -b .symlink
 
 #%patch401 -p1 -b .harden
-
-#%patch402 -p1 -b .harden
 
 
 # Patch in the vendor string and the release string
