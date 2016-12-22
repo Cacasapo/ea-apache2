@@ -66,10 +66,11 @@ Patch303: 2.2.17_cpanel_mailman_suexec.patch
 Patch304: 2.2_cpanel_fileprotect_suexec_httpusergroupallow.patch
 Patch305: httpd-2.4.12-apxs-modules-dir.patch
 Patch306: httpd-2.4.23-symlink.patch
+
 #OFFICIAL SYMLINK PATCH BY WHM/CPANEL IS ENABLED BY DEFAULT.
 #IF YOU WANT TO USE THE RACK911 PATCH, COMMENT OUT PATCH 306
-#Symlink Protection (Rack911)
-#Patch401: harden-symlinks-2.4.patch
+# Symlink Protection (Rack911)
+#Patch402: harden-symlinks-2.4.patch
 
 License: ASL 2.0
 Group: System Environment/Daemons
@@ -1220,8 +1221,12 @@ mod_watchdog hooks.
 %patch303 -p1 -b .cpsuexec2
 %patch304 -p1 -b .cpsuexec3
 %patch305 -p1 -b .cpapxs
-%patch306 -p1 -b .symlink
+#%patch306 -p1 -b .symlink
+
 #%patch401 -p1 -b .harden
+
+#%patch402 -p1 -b .harden
+
 
 # Patch in the vendor string and the release string
 sed -i '/^#define PLATFORM/s/Unix/%{vstring}/' os/unix/os.h
@@ -1305,6 +1310,8 @@ export LYNX_PATH=/usr/bin/links
     --enable-http2=static \
 	--with-nghttp2 \
     --with-ssl=/opt/ssl \
+    
+
 	$*
 make %{?_smp_mflags}
 
@@ -2294,7 +2301,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Oct 24 2011 Jan Kaluza <jkaluza@redhat.com> - 2.2.21-3
 - allow change state of BalancerMember in mod_proxy_balancer web interface
 
-* Thu Sep 22 2011 Ville Skyttä <ville.skytta@iki.fi> - 2.2.21-2
+* Thu Sep 22 2011 Ville SkyttÃ¤ <ville.skytta@iki.fi> - 2.2.21-2
 - Make mmn available as %%{_httpd_mmn}.
 - Add .svgz to AddEncoding x-gzip example in httpd.conf.
 
@@ -2326,7 +2333,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix path expansion in service files
 
 * Tue Apr 12 2011 Joe Orton <jorton@redhat.com> - 2.2.17-12
-- add systemd service files (#684175, thanks to Jóhann B. Guðmundsson)
+- add systemd service files (#684175, thanks to JÃ³hann B. GuÃ°mundsson)
 
 * Wed Mar 23 2011 Joe Orton <jorton@redhat.com> - 2.2.17-11
 - minor updates to httpd.conf
