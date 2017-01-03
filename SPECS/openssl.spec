@@ -7,7 +7,7 @@ Release: 2
 
 Summary: Secure Sockets Layer and cryptography libraries and tools
 Name: openssl-parallel
-Version: 1.0.2h
+Version: 1.0.2j
 Source0: /root/rpmbuild/SOURCES/openssl-%{version}.tar.gz
 License: OpenSSL
 Group: System Environment/Libraries
