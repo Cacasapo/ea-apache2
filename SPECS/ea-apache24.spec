@@ -65,6 +65,9 @@ Patch304: 2.2_cpanel_fileprotect_suexec_httpusergroupallow.patch
 Patch305: httpd-2.4.12-apxs-modules-dir.patch
 Patch306: httpd-2.4.25-symlink.patch
 
+#Patch to fix 2.4.25 issue with http/2
+Patch666: httpd-2.4.25-http2fix.patch
+
 #OFFICIAL SYMLINK PATCH BY WHM/CPANEL IS ENABLED BY DEFAULT.
 #IF YOU WANT TO USE THE RACK911 PATCH, COMMENT OUT PATCH 306 IN BOTH LOCATIONS AND ENABLE 401
 #Symlink Protection (Rack911) (Currently untested/not compatible with 2.4.25)
@@ -1221,6 +1224,7 @@ mod_watchdog hooks.
 
 #%patch401 -p1 -b .harden
 
+#patch666 -p1 -b .http2fix
 
 # Patch in the vendor string and the release string
 sed -i '/^#define PLATFORM/s/Unix/%{vstring}/' os/unix/os.h

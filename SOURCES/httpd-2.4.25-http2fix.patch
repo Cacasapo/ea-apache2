@@ -1,0 +1,20 @@
+--- ./modules/http2/h2_bucket_beam.c	2016-11-03 01:02:30.000000000 +0100
++++ /usr/src/httpd-2.4.25/modules/http2/h2_bucket_beam.c	2016-12-22 15:07:27.786472628 +0100
+@@ -153,10 +153,17 @@
+  ******************************************************************************/
+ 
+ static apr_array_header_t *beamers;
++
++static apr_status_t null_beamers(void *dummy)
++{
++    beamers = NULL;
++}
+  
+ void h2_register_bucket_beamer(h2_bucket_beamer *beamer)
+ {
+     if (!beamers) {
++        apr_pool_cleanup_register(apr_hook_global_pool, NULL,
++                                  null_beamers, apr_pool_cleanup_null);
+         beamers = apr_array_make(apr_hook_global_pool, 10, 
+                                  sizeof(h2_bucket_beamer*));
+     }
