@@ -14,9 +14,9 @@
 
 Summary: Apache HTTP Server
 Name: ea-apache24
-Version: 2.4.23
+Version: 2.4.25
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 681
+%define release_prefix 100
 Release: %{release_prefix}%{?dist}.cpanel.http2
 Vendor: cPanel, Inc.
 URL: http://httpd.apache.org/
@@ -55,21 +55,19 @@ Patch27: httpd-2.4.2-icons.patch
 
 Patch30: httpd-2.4.4-cachehardmax.patch
 # Bug fixes
-Patch55: httpd-2.4.4-malformed-host.patch
 Patch56: httpd-2.4.4-mod_unique_id.patch
 Patch59: httpd-2.4.6-r1556473.patch
-Patch60: httpd-2.4.20-asf_httpoxy-response.patch
 # cPanel-specific patches
 Patch301: 2.4.23_cpanel_apachectl.patch
 Patch302: 2.2.17_cpanel_suexec_script_share.patch
 Patch303: 2.2.17_cpanel_mailman_suexec.patch
 Patch304: 2.2_cpanel_fileprotect_suexec_httpusergroupallow.patch
 Patch305: httpd-2.4.12-apxs-modules-dir.patch
-Patch306: httpd-2.4.23-symlink.patch
+Patch306: httpd-2.4.25-symlink.patch
 
 #OFFICIAL SYMLINK PATCH BY WHM/CPANEL IS ENABLED BY DEFAULT.
 #IF YOU WANT TO USE THE RACK911 PATCH, COMMENT OUT PATCH 306 IN BOTH LOCATIONS AND ENABLE 401
-# Symlink Protection (Rack911)
+#Symlink Protection (Rack911) (Currently untested/not compatible with 2.4.25)
 #Patch401: harden-symlinks-2.4.patch
 
 License: ASL 2.0
@@ -1211,10 +1209,8 @@ mod_watchdog hooks.
 
 %patch30 -p1 -b .cachehardmax
 
-%patch55 -p1 -b .malformedhost
 %patch56 -p1 -b .uniqueid
 %patch59 -p1 -b .r1556473
-%patch60 -p1 -b .asf_httpoxy-response
 
 %patch301 -p1 -b .cpapachectl
 %patch302 -p1 -b .cpsuexec1
@@ -1829,6 +1825,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/rpm/macros.apache2
 
 %changelog
+* Tue Jan 03 2017 Dan Muey <dan@cpanel.net> - 2.4.25-2
+EA-5836: Have httpd.service use /run instead of /var/run
+
+* Wed Dec 21 2016 Cory McIntire <cory@cpanel.net> - 2.4.25-1
+- Updated to version 2.4.25, drop version 2.4.23
+
 * Tue Dec 13 2016 Dan Muey <dan@cpanel.net> - 2.4.23-9
 - EA-5557: turn off icon directives by default since the icons are broken under symlink protect
 -          and are used by HTMLTable even when fancy indexinf is off
@@ -2299,7 +2301,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Oct 24 2011 Jan Kaluza <jkaluza@redhat.com> - 2.2.21-3
 - allow change state of BalancerMember in mod_proxy_balancer web interface
 
-* Thu Sep 22 2011 Ville SkyttÃ¤ <ville.skytta@iki.fi> - 2.2.21-2
+* Thu Sep 22 2011 Ville Skyttä <ville.skytta@iki.fi> - 2.2.21-2
 - Make mmn available as %%{_httpd_mmn}.
 - Add .svgz to AddEncoding x-gzip example in httpd.conf.
 
@@ -2331,7 +2333,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix path expansion in service files
 
 * Tue Apr 12 2011 Joe Orton <jorton@redhat.com> - 2.2.17-12
-- add systemd service files (#684175, thanks to JÃ³hann B. GuÃ°mundsson)
+- add systemd service files (#684175, thanks to Jóhann B. Guðmundsson)
 
 * Wed Mar 23 2011 Joe Orton <jorton@redhat.com> - 2.2.17-11
 - minor updates to httpd.conf
