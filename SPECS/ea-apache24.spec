@@ -1224,7 +1224,7 @@ mod_watchdog hooks.
 
 #%patch401 -p1 -b .harden
 
-#patch666 -p1 -b .http2fix
+%patch666 -p1 -b .http2fix
 
 # Patch in the vendor string and the release string
 sed -i '/^#define PLATFORM/s/Unix/%{vstring}/' os/unix/os.h
