@@ -16,7 +16,7 @@ Summary: Apache HTTP Server
 Name: ea-apache24
 Version: 2.4.25
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 100
+%define release_prefix 101
 Release: %{release_prefix}%{?dist}.cpanel.http2
 Vendor: cPanel, Inc.
 URL: http://httpd.apache.org/
@@ -2307,7 +2307,7 @@ EA-5836: Have httpd.service use /run instead of /var/run
 * Mon Oct 24 2011 Jan Kaluza <jkaluza@redhat.com> - 2.2.21-3
 - allow change state of BalancerMember in mod_proxy_balancer web interface
 
-* Thu Sep 22 2011 Ville Skyttä <ville.skytta@iki.fi> - 2.2.21-2
+* Thu Sep 22 2011 Ville SkyttÃ¤ <ville.skytta@iki.fi> - 2.2.21-2
 - Make mmn available as %%{_httpd_mmn}.
 - Add .svgz to AddEncoding x-gzip example in httpd.conf.
 
@@ -2339,7 +2339,7 @@ EA-5836: Have httpd.service use /run instead of /var/run
 - fix path expansion in service files
 
 * Tue Apr 12 2011 Joe Orton <jorton@redhat.com> - 2.2.17-12
-- add systemd service files (#684175, thanks to J�hann B. Gu�mundsson)
+- add systemd service files (#684175, thanks to Jóhann B. Guðmundsson)
 
 * Wed Mar 23 2011 Joe Orton <jorton@redhat.com> - 2.2.17-11
 - minor updates to httpd.conf
