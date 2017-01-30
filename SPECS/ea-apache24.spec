@@ -919,6 +919,7 @@ Summary: Dynamic health check of Balancer members (workers) for mod_proxy
 Requires: ea-apache24 = 0:%{version}-%{release}, ea-apache24-mmn = %{mmnisa}
 Requires: ea-apache24-mod_proxy = 0:%{version}-%{release}
 Requires: ea-apache24-mod_watchdog = 0:%{version}-%{release}
+Conflicts: ea-apache24-mpm = forked
 
 %description -n ea-apache24-mod_proxy_hcheck
 The mod_proxy_hcheck module provides support for dynamic health checking of
@@ -1824,6 +1825,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/rpm/macros.apache2
 
 %changelog
+* Wed Jan 11 2017 Dan Muey <dan@cpanel.net> - 2.4.25-4
+* EA-5845: Increase the maximum number of file descriptors for init.d systems
+
+* Wed Jan 04 2017 Dan Muey <dan@cpanel.net> - 2.4.25-3
+* EA-5836: mod_proxy_hcheck w/ prefork segfaults frequently
+
 * Tue Jan 03 2017 Dan Muey <dan@cpanel.net> - 2.4.25-2
 EA-5836: Have httpd.service use /run instead of /var/run
 
@@ -2300,7 +2307,7 @@ EA-5836: Have httpd.service use /run instead of /var/run
 * Mon Oct 24 2011 Jan Kaluza <jkaluza@redhat.com> - 2.2.21-3
 - allow change state of BalancerMember in mod_proxy_balancer web interface
 
-* Thu Sep 22 2011 Ville Skytt‰ <ville.skytta@iki.fi> - 2.2.21-2
+* Thu Sep 22 2011 Ville Skytt√§ <ville.skytta@iki.fi> - 2.2.21-2
 - Make mmn available as %%{_httpd_mmn}.
 - Add .svgz to AddEncoding x-gzip example in httpd.conf.
 
