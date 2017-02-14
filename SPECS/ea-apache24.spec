@@ -16,7 +16,7 @@ Summary: Apache HTTP Server
 Name: ea-apache24
 Version: 2.4.25
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 101
+%define release_prefix 102
 Release: %{release_prefix}%{?dist}.cpanel.http2
 Vendor: cPanel, Inc.
 URL: http://httpd.apache.org/
